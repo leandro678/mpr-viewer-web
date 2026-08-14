@@ -65,3 +65,71 @@ export function extractOperations(
     total
   };
 }
+export interface Operation {
+  type: string;
+  x: string;
+  y: string;
+  diameter: string;
+  depth: string;
+}
+
+export function extractOperationList(
+  content: string
+): Operation[] {
+
+  const lines = content.split("\n");
+
+  const operations: Operation[] = [];
+
+  let currentType = "";
+
+  let x = "";
+  let y = "";
+  let diameter = "";
+  let depth = "";
+
+  for (const line of lines) {
+
+    if (line.includes("BohrVert")) {
+
+      currentType = "BohrVert";
+
+      x = "";
+      y = "";
+      diameter = "";
+      depth = "";
+    }
+
+    if (line.includes('XA="')) {
+      x = line.match(/XA="([^"]+)"/)?.[1] || "";
+    }
+
+    if (line.includes('YA="')) {
+      y = line.match(/YA="([^"]+)"/)?.[1] || "";
+    }
+
+    if (line.includes('DU="')) {
+      diameter =
+        line.match(/DU="([^"]+)"/)?.[1] || "";
+    }
+
+    if (line.includes('TI="')) {
+
+      depth =
+        line.match(/TI="([^"]+)"/)?.[1] || "";
+
+      if (currentType === "BohrVert") {
+
+        operations.push({
+          type: currentType,
+          x,
+          y,
+          diameter,
+          depth
+        });
+      }
+    }
+  }
+
+  return operations;
+}

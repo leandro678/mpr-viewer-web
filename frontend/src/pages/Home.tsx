@@ -3,24 +3,29 @@ import "../styles/Home.css";
 import FileUploader from "../components/FileUploader";
 import {
   extractDimensions,
-  extractOperations
+  extractOperations,
+  extractOperationList
 } from "../services/mprParser";
 
 function Home() {
   const [fileName, setFileName] = useState("");
   const [fileContent, setFileContent] = useState("");
+
   const [dimensions, setDimensions] = useState({
-  length: "",
-  width: "",
-  thickness: ""
-});
-const [operations, setOperations] = useState({
-  verticalDrills: 0,
-  horizontalDrills: 0,
-  grooves: 0,
-  components: 0,
-  total: 0
-});
+    length: "",
+    width: "",
+    thickness: ""
+  });
+
+  const [operations, setOperations] = useState({
+    verticalDrills: 0,
+    horizontalDrills: 0,
+    grooves: 0,
+    components: 0,
+    total: 0
+  });
+
+  const [operationList, setOperationList] = useState<any[]>([]);
 
 const handleFileLoaded = (
   content: string,
@@ -40,6 +45,14 @@ const handleFileLoaded = (
     extractOperations(content);
 
   setOperations(ops);
+
+  const operationData =
+    extractOperationList(content);
+
+  setOperationList(operationData);
+
+  setOperations(ops);
+
 };
 
   return (
@@ -124,6 +137,56 @@ const handleFileLoaded = (
       </div>
 
       <div className="viewer-2d">
+
+        <h2>Lista de Operações</h2>
+
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse"
+        }}
+        >
+
+        <thead>
+          <tr>
+
+            <th>Tipo</th>
+
+            <th>X</th>
+
+            <th>Y</th>
+
+            <th>Ø</th>
+
+            <th>Prof.</th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {operationList.map((op, index) => (
+            <tr key={index}>
+
+              <td>{op.type}</td>
+
+              <td>{op.x}</td>
+
+              <td>{op.y}</td>
+
+              <td>{op.diameter}</td>
+
+              <td>{op.depth}</td>
+
+            </tr>
+          ))}
+
+        </tbody>
+
+      </table>
+
+      <br />
+
 
         <h2>Conteúdo Bruto do MPR (Depuração)</h2>
 
