@@ -1,18 +1,30 @@
 import { useState } from "react";
 import "../styles/Home.css";
 import FileUploader from "../components/FileUploader";
+import { extractDimensions } from "../services/mprParser";
 
 function Home() {
   const [fileName, setFileName] = useState("");
   const [fileContent, setFileContent] = useState("");
+  const [dimensions, setDimensions] = useState({
+  length: "",
+  width: "",
+  thickness: ""
+});
 
-  const handleFileLoaded = (
-    content: string,
-    name: string
-  ) => {
-    setFileName(name);
-    setFileContent(content);
-  };
+const handleFileLoaded = (
+  content: string,
+  name: string
+) => {
+
+  setFileName(name);
+
+  setFileContent(content);
+
+  const dims = extractDimensions(content);
+
+  setDimensions(dims);
+};
 
   return (
     <div className="home-container">
@@ -29,9 +41,33 @@ function Home() {
 
       <div className="info-panel">
 
-        <h2>Arquivo Selecionado</h2>
+        <h2>Informações da Peça</h2>
 
-        <p>{fileName || "Nenhum arquivo selecionado"}</p>
+        <p>
+          <strong>Arquivo:</strong>
+          {" "}
+          {fileName || "Nenhum arquivo"}
+        </p>
+
+        <br />
+
+        <p>
+          <strong>Comprimento:</strong>
+          {" "}
+          {dimensions.length || "-"} mm
+        </p>
+
+        <p>
+          <strong>Largura:</strong>
+          {" "}
+          {dimensions.width || "-"} mm
+        </p>
+
+        <p>
+          <strong>Espessura:</strong>
+          {" "}
+          {dimensions.thickness || "-"} mm
+        </p>
 
       </div>
 

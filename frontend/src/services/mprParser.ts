@@ -1,25 +1,29 @@
 export interface BoardDimensions {
-  width: string;
   length: string;
+  width: string;
   thickness: string;
+}
+
+function formatNumber(value: string): string {
+  return Number(value).toString();
 }
 
 export function extractDimensions(
   content: string
 ): BoardDimensions {
 
-  const width =
-    content.match(/LPX=(.*)/)?.[1] || "";
+  const lengthRaw =
+    content.match(/_BSX=([0-9.]+)/)?.[1] || "";
 
-  const length =
-    content.match(/LPY=(.*)/)?.[1] || "";
+  const widthRaw =
+    content.match(/_BSY=([0-9.]+)/)?.[1] || "";
 
-  const thickness =
-    content.match(/LPZ=(.*)/)?.[1] || "";
+  const thicknessRaw =
+    content.match(/_BSZ=([0-9.]+)/)?.[1] || "";
 
   return {
-    width,
-    length,
-    thickness
+    length: formatNumber(lengthRaw),
+    width: formatNumber(widthRaw),
+    thickness: formatNumber(thicknessRaw)
   };
 }
