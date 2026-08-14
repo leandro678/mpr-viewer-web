@@ -68,6 +68,8 @@ const handleFileLoaded = (
   const boardWidth =
     Number(dimensions.width) || 0;
 
+  const [selectedOperation] = useState<any>(null);
+
   return (
     <div className="home-container">
 
@@ -158,6 +160,48 @@ const handleFileLoaded = (
           width={boardWidth}
           drills={drills}
         />
+
+        <br />
+
+        <div
+          style={{
+            padding: "15px",
+            background: "#fafafa",
+            border: "1px solid #ddd"
+          }}
+        >
+
+          <h3>Operação Selecionada</h3>
+
+          {
+            selectedOperation ? (
+              <>
+                <p>
+                  Tipo:
+                  {" "}
+                  {selectedOperation.type}
+                </p>
+
+                <p>
+                  X:
+                  {" "}
+                  {selectedOperation.x}
+                </p>
+
+                <p>
+                  Y:
+                  {" "}
+                  {selectedOperation.y}
+                </p>
+              </>
+            ) : (
+              <p>
+                Passe o mouse sobre um furo.
+              </p>
+            )
+          }
+
+        </div>
 
         <br />
 
