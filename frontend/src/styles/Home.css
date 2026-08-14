@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f4f6f8;
+  font-family: Arial, sans-serif;
+}
+
+.home-container {
+  padding: 20px;
+}
+
+.header {
+  background: #1f2937;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.upload-area {
+  margin-top: 20px;
+}
+
+.upload-button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.main-content {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+}
+
+.operations-panel {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-height: 400px;
+}
+
+.viewer-3d {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-height: 400px;
+}
+
+.info-panel {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.viewer-2d {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-height: 250px;
+}
