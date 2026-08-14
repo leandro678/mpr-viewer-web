@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "../styles/Home.css";
 import FileUploader from "../components/FileUploader";
-import { extractDimensions } from "../services/mprParser";
+import {
+  extractDimensions,
+  extractOperations
+} from "../services/mprParser";
 
 function Home() {
   const [fileName, setFileName] = useState("");
@@ -10,6 +13,13 @@ function Home() {
   length: "",
   width: "",
   thickness: ""
+});
+const [operations, setOperations] = useState({
+  verticalDrills: 0,
+  horizontalDrills: 0,
+  grooves: 0,
+  components: 0,
+  total: 0
 });
 
 const handleFileLoaded = (
@@ -21,9 +31,15 @@ const handleFileLoaded = (
 
   setFileContent(content);
 
-  const dims = extractDimensions(content);
+  const dims =
+    extractDimensions(content);
 
   setDimensions(dims);
+
+  const ops =
+    extractOperations(content);
+
+  setOperations(ops);
 };
 
   return (
@@ -69,11 +85,47 @@ const handleFileLoaded = (
           {dimensions.thickness || "-"} mm
         </p>
 
+        <br />
+
+        <h3>Resumo das Operações</h3>
+
+        <p>
+          Furações Verticais:
+          {" "}
+          {operations.verticalDrills}
+        </p>
+
+        <p>
+          Furações Horizontais:
+          {" "}
+          {operations.horizontalDrills}
+        </p>
+
+        <p>
+          Canais:
+          {" "}
+          {operations.grooves}
+        </p>
+
+        <p>
+          Componentes:
+          {" "}
+          {operations.components}
+        </p>
+
+        <p>
+         <strong>
+           Total:
+          </strong>
+          {" "}
+          {operations.total}
+        </p>
+
       </div>
 
       <div className="viewer-2d">
 
-        <h2>Conteúdo do Arquivo</h2>
+        <h2>Conteúdo Bruto do MPR (Depuração)</h2>
 
         <pre
           style={{
