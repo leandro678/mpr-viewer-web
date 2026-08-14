@@ -4,7 +4,8 @@ import FileUploader from "../components/FileUploader";
 import {
   extractDimensions,
   extractOperations,
-  extractOperationList
+  extractOperationList,
+  extractVerticalDrills
 } from "../services/mprParser";
 import Board2D from "../components/Board2D";
 
@@ -27,6 +28,8 @@ function Home() {
   });
 
   const [operationList, setOperationList] = useState<any[]>([]);
+
+  const [drills, setDrills] = useState<any[]>([]);
 
 const handleFileLoaded = (
   content: string,
@@ -51,6 +54,11 @@ const handleFileLoaded = (
     extractOperationList(content);
 
   setOperationList(operationData);
+
+  const drillData =
+    extractVerticalDrills(content);
+
+  setDrills(drillData);
 
 };
 
@@ -148,6 +156,7 @@ const handleFileLoaded = (
         <Board2D
           length={boardLength}
           width={boardWidth}
+          drills={drills}
         />
 
         <br />

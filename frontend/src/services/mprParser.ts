@@ -133,3 +133,51 @@ export function extractOperationList(
 
   return operations;
 }
+  export interface Drill {
+    x: number;
+    y: number;
+    diameter: number;
+    depth: number;
+}
+
+export function extractVerticalDrills(
+  content: string
+): Drill[] {
+
+  const operations =
+    content.split("<102 \\BohrVert\\");
+
+  const drills: Drill[] = [];
+
+  for (const operation of operations) {
+
+    const x =
+      operation.match(/XA="([^"]+)"/)?.[1];
+
+    const y =
+      operation.match(/YA="([^"]+)"/)?.[1];
+
+    const diameter =
+      operation.match(/DU="([^"]+)"/)?.[1];
+
+    const depth =
+      operation.match(/TI="([^"]+)"/)?.[1];
+
+    if (
+      x &&
+      y &&
+      diameter &&
+      depth
+    ) {
+
+      drills.push({
+        x: Number(x),
+        y: Number(y),
+        diameter: Number(diameter),
+        depth: Number(depth)
+      });
+    }
+  }
+
+  return drills;
+}

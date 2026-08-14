@@ -1,11 +1,20 @@
+type Drill = {
+  x: number;
+  y: number;
+  diameter: number;
+  depth: number;
+};
+
 type Props = {
   width: number;
   length: number;
+  drills: Drill[];
 };
 
 function Board2D({
   width,
-  length
+  length,
+  drills
 }: Props) {
 
   const scale = 0.5;
@@ -35,6 +44,18 @@ function Board2D({
         stroke="#333"
         strokeWidth="2"
       />
+
+      {drills?.map((drill, index) => (
+        <circle
+          key={index}
+          cx={50 + drill.x * scale}
+          cy={50 + drill.y * scale}
+          r={drill.diameter / 2}
+          fill="#1976d2"
+          stroke="#0d47a1"
+          strokeWidth="1"
+        />
+      ))}
     </svg>
   );
 }
