@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # MPR Viewer Web
 
 Sistema web para visualização de componentes MPR em 2D e 3D.
