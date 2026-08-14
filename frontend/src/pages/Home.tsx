@@ -6,6 +6,7 @@ import {
   extractOperations,
   extractOperationList
 } from "../services/mprParser";
+import Board2D from "../components/Board2D";
 
 function Home() {
   const [fileName, setFileName] = useState("");
@@ -51,9 +52,13 @@ const handleFileLoaded = (
 
   setOperationList(operationData);
 
-  setOperations(ops);
-
 };
+
+  const boardLength =
+    Number(dimensions.length) || 0;
+
+  const boardWidth =
+    Number(dimensions.width) || 0;
 
   return (
     <div className="home-container">
@@ -137,6 +142,15 @@ const handleFileLoaded = (
       </div>
 
       <div className="viewer-2d">
+
+        <h2>Visualização 2D</h2>
+
+        <Board2D
+          length={boardLength}
+          width={boardWidth}
+        />
+
+        <br />
 
         <h2>Lista de Operações</h2>
 
