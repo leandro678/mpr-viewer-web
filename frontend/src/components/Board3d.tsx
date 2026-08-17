@@ -7,6 +7,7 @@ type Props = {
   thickness: number;
   drills: Drill[];
   horizontalDrills: HorizontalDrill[];
+  grooves: Groove[];
 };
 
 type Drill = {
@@ -23,12 +24,20 @@ type HorizontalDrill = {
   depth: number;
 };
 
+type Groove = {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+};
+
 function Board3D({
   length,
   width,
   thickness,
   drills,
-  horizontalDrills
+  horizontalDrills,
+  grooves
 }: Props) {
 
   const scale = 0.01;
@@ -132,6 +141,48 @@ function Board3D({
          </mesh>
 
     ))}
+
+         {grooves?.map((groove, index) => {
+
+             const grooveLength = Math.sqrt(
+                 Math.pow(groove.x2 - groove.x1, 2) +
+                 Math.pow(groove.y2 - groove.y1, 2)
+             );
+
+             const centerX =
+                 ((groove.x1 + groove.x2) / 2);
+
+             const centerY =
+                 ((groove.y1 + groove.y2) / 2);
+
+             return (
+                 <mesh
+                     key={`groove-${index}`}
+                     position={[
+                         (centerX * scale) -
+                             (length * scale / 2),
+                         (thickness * scale / 2) + 0.005,
+                         (centerY * scale) -
+                             (width * scale / 2)
+                     ]}
+                 >
+
+                     <boxGeometry
+                         args={[
+                             grooveLength * scale,
+                             0.02,
+                             0.04
+                         ]}
+                     />
+
+                     <meshStandardMaterial
+                         color="orange"
+                     />
+
+                 </mesh>
+             );
+
+        })}
 
       <OrbitControls />
 
