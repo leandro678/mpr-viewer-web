@@ -248,6 +248,7 @@ const handleFileLoaded = (
             drills={drills}
             horizontalDrills={horizontalDrills}
             grooves={grooves}
+            components={components}
           />
 
         <br />
