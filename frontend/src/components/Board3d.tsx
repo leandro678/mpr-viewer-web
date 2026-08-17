@@ -6,9 +6,17 @@ type Props = {
   width: number;
   thickness: number;
   drills: Drill[];
+  horizontalDrills: HorizontalDrill[];
 };
 
 type Drill = {
+  x: number;
+  y: number;
+  diameter: number;
+  depth: number;
+};
+
+type HorizontalDrill = {
   x: number;
   y: number;
   diameter: number;
@@ -19,7 +27,8 @@ function Board3D({
   length,
   width,
   thickness,
-  drills
+  drills,
+  horizontalDrills
 }: Props) {
 
   const scale = 0.01;
@@ -90,6 +99,39 @@ function Board3D({
          </mesh>
 
         ))}
+
+        {horizontalDrills?.map((drill, index) => (
+
+         <mesh
+            key={`h-${index}`}
+            position={[
+             (drill.x * scale) - (length * scale / 2),
+              0,
+             (drill.y * scale) - (width * scale / 2)
+            ]}
+            rotation={[
+               0,
+               0,
+               Math.PI / 2
+            ]}
+         >
+
+             <cylinderGeometry
+                 args={[
+                   drill.diameter * scale / 2,
+                   drill.diameter * scale / 2,
+                   drill.depth * scale,
+                   16
+                 ]}
+                />
+
+              <meshStandardMaterial
+                color="green"
+             />
+
+         </mesh>
+
+    ))}
 
       <OrbitControls />
 

@@ -246,6 +246,7 @@ const handleFileLoaded = (
             width={boardWidth}
             thickness={boardThickness}
             drills={drills}
+            horizontalDrills={horizontalDrills}
           />
 
         <br />
