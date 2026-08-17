@@ -11,6 +11,7 @@ import {
   extractComponents
 } from "../services/mprParser";
 import Board2D from "../components/Board2D";
+import Board3D from "../components/Board3D";
 
 function Home() {
   const [fileName, setFileName] = useState("");
@@ -93,6 +94,9 @@ const handleFileLoaded = (
 
   const boardWidth =
     Number(dimensions.width) || 0;
+
+  const boardThickness =
+   Number(dimensions.thickness) || 0;
 
   const [selectedOperation] = useState<any>(null);
 
@@ -234,6 +238,14 @@ const handleFileLoaded = (
           <p>🟠 Canal</p>
 
         </div>
+
+        <h2>Visualização 3D</h2>
+
+          <Board3D
+            length={boardLength}
+            width={boardWidth}
+            thickness={boardThickness}
+          />
 
         <br />
 
