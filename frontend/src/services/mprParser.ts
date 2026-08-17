@@ -182,50 +182,140 @@ export function extractOperationList(
 
   return drills;
 }
-export interface HorizontalDrill {
-  x: number;
-  y: number;
-  diameter: number;
-  depth: number;
-}
 
-export function extractHorizontalDrills(
-  content: string
-): HorizontalDrill[] {
-
-  const operations =
-    content.split("<103 \\BohrHoriz\\");
-
-  const drills: HorizontalDrill[] = [];
-
-  for (const operation of operations) {
-
-    const x =
-      operation.match(/XA="([^"]+)"/)?.[1];
-
-    const y =
-      operation.match(/YA="([^"]+)"/)?.[1];
-
-    const diameter =
-      operation.match(/DU="([^"]+)"/)?.[1];
-
-    const depth =
-      operation.match(/TI="([^"]+)"/)?.[1];
-
-    if (
-      x &&
-      y &&
-      diameter &&
-      depth
-    ) {
-      drills.push({
-        x: Number(x),
-        y: Number(y),
-        diameter: Number(diameter),
-        depth: Number(depth)
-      });
+    export interface HorizontalDrill {
+      x: number;
+      y: number;
+      diameter: number;
+      depth: number;
     }
-  }
+    export function extractHorizontalDrills(
+      content: string
+    ): HorizontalDrill[] {
+    
+    const operations =
+        content.split("<103 \\BohrHoriz\\");
+
+    const drills: HorizontalDrill[] = [];
+
+    for (const operation of operations) {
+
+        const x =
+        operation.match(/XA="([^"]+)"/)?.[1];
+
+        const y =
+        operation.match(/YA="([^"]+)"/)?.[1];
+
+        const diameter =
+        operation.match(/DU="([^"]+)"/)?.[1];
+
+        const depth =
+        operation.match(/TI="([^"]+)"/)?.[1];
+
+        if (
+        x &&
+        y &&
+        diameter &&
+        depth
+        ) {
+
+        drills.push({
+            x: Number(x),
+            y: Number(y),
+            diameter: Number(diameter),
+            depth: Number(depth)
+        });
+
+        }
+
+    }
 
   return drills;
+}
+      export interface Groove {
+      x1: number;
+      y1: number;
+      x2: number;
+      y2: number;
+     }
+     export function extractGrooves(
+      content: string
+     ): Groove[] {
+
+       const operations =
+         content.split("<109 \\Grooves_MPR3\\");
+
+       const grooves: Groove[] = [];
+
+       for (const operation of operations) {
+
+         const x1 =
+         operation.match(/XA="([^"]+)"/)?.[1];
+
+         const y1 =
+         operation.match(/YA="([^"]+)"/)?.[1];
+
+         const x2 =
+         operation.match(/XE="([^"]+)"/)?.[1];
+
+         const y2 =
+         operation.match(/YE="([^"]+)"/)?.[1];
+
+          if (
+           x1 &&
+           y1 &&
+           x2 &&
+           y2
+         ) {
+
+         grooves.push({
+           x1: Number(x1),
+           y1: Number(y1),
+           x2: Number(x2),
+           y2: Number(y2)
+          });
+
+         }
+       }
+
+      return grooves;
+}
+
+    export interface Component {
+      x: number;
+       y: number;
+        name: string;
+    }
+    export function extractComponents(
+     content: string
+    ): Component[] {
+
+     const operations =
+       content.split("<139 \\Komponente\\");
+
+     const components: Component[] = [];
+
+     for (const operation of operations.slice(1)) {
+
+       const x =
+        operation.match(/XA="([^"]+)"/)?.[1];
+
+       const y =
+        operation.match(/YA="([^"]+)"/)?.[1];
+
+       const name =
+       operation.match(/IN="([^"]+)"/)?.[1];
+
+       if (x && y && name) {
+
+          components.push({
+            x: Number(x),
+            y: Number(y),
+           name
+          });
+
+         }
+       }
+
+       return components;
 }

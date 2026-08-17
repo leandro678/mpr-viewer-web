@@ -5,7 +5,10 @@ import {
   extractDimensions,
   extractOperations,
   extractOperationList,
-  extractVerticalDrills
+  extractVerticalDrills,
+  extractHorizontalDrills,
+  extractGrooves,
+  extractComponents
 } from "../services/mprParser";
 import Board2D from "../components/Board2D";
 
@@ -30,6 +33,14 @@ function Home() {
   const [operationList, setOperationList] = useState<any[]>([]);
 
   const [drills, setDrills] = useState<any[]>([]);
+
+  const [horizontalDrills, setHorizontalDrills] = useState<any[]>([])
+
+  const [grooves, setGrooves] = useState<any[]>([]);
+
+  const [components, setComponents] = useState<any[]>([]);
+
+  const [zoom, setZoom] = useState(1);
 
 const handleFileLoaded = (
   content: string,
@@ -59,6 +70,21 @@ const handleFileLoaded = (
     extractVerticalDrills(content);
 
   setDrills(drillData);
+
+  const horizontalData =
+    extractHorizontalDrills(content);
+  
+  setHorizontalDrills(horizontalData);
+
+  const grooveData =
+    extractGrooves(content);
+
+  setGrooves(grooveData);
+
+   const componentData =
+     extractComponents(content);
+
+  setComponents(componentData);
 
 };
 
@@ -142,6 +168,20 @@ const handleFileLoaded = (
         </p>
 
         <p>
+          Componentes encontrados:
+         {" "}
+         {components.length}
+        </p>
+
+        <ul>
+          {components.map((component, index) => (
+           <li key={index}>
+            {component.name}
+           </li>
+          ))}
+        </ul>
+
+        <p>
          <strong>
            Total:
           </strong>
@@ -155,11 +195,45 @@ const handleFileLoaded = (
 
         <h2>Visualização 2D</h2>
 
+        <div style={{ marginBottom: "10px" }}>
+
+          <button
+            onClick={() =>
+             setZoom(prev => prev * 1.2)
+           }
+         >
+           Zoom +
+         </button>
+
+         <button
+           onClick={() =>
+             setZoom(prev => prev / 1.2)
+           }
+           style={{ marginLeft: "10px" }}
+          >
+            Zoom -
+         </button>
+
+        </div>
+
         <Board2D
           length={boardLength}
           width={boardWidth}
           drills={drills}
+          horizontalDrills={horizontalDrills}
+          grooves={grooves}
+          zoom={zoom}
         />
+
+        <div style={{ marginTop: "10px" }}>
+
+          <p>🔵 Furo Vertical</p>
+
+          <p>🟢 Furo Horizontal</p>
+
+          <p>🟠 Canal</p>
+
+        </div>
 
         <br />
 

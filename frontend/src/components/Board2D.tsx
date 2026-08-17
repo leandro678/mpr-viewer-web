@@ -5,24 +5,46 @@ type Drill = {
   depth: number;
 };
 
+type HorizontalDrill = {
+  x: number;
+  y: number;
+  diameter: number;
+  depth: number;
+};
+
+type Groove = {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+};
+
 type Props = {
   width: number;
   length: number;
   drills: Drill[];
+  horizontalDrills: HorizontalDrill[];
+  grooves: Groove[];
+  zoom: number;
 };
 
 function Board2D({
   width,
   length,
-  drills
+  drills,
+  horizontalDrills,
+  grooves,
+  zoom
 }: Props) {
 
-  const maxSize = 700;
+ const maxSize = 500;
 
-  const scale = Math.min(
-    maxSize / Math.max(length, 1),
-    maxSize / Math.max(width, 1)
-  );
+ const baseScale = Math.min(
+  maxSize / Math.max(length, 1),
+  maxSize / Math.max(width, 1)
+);
+
+ const scale = baseScale * zoom;
 
   return (
     <svg
@@ -108,6 +130,41 @@ function Board2D({
           </title>
 
         </g>
+      ))}
+
+      {horizontalDrills?.map((drill, index) => (
+        <g key={`h-${index}`}>
+
+       <circle
+         cx={50 + drill.x * scale}
+         cy={50 + drill.y * scale}
+          r={drill.diameter / 2}
+         fill="#4caf50"
+         stroke="#1b5e20"
+          strokeWidth="2"
+       />
+
+         <title>
+           Furo Horizontal |
+           X: {drill.x} |
+           Y: {drill.y} |
+           Ø: {drill.diameter} |
+           Prof.: {drill.depth}
+         </title>
+
+       </g>
+      ))}
+
+      {grooves?.map((groove, index) => (
+       <line
+         key={`groove-${index}`}
+         x1={50 + groove.x1 * scale}
+         y1={50 + groove.y1 * scale}
+         x2={50 + groove.x2 * scale}
+         y2={50 + groove.y2 * scale}
+         stroke="#ff9800"
+         strokeWidth="4"
+       />
       ))}
 
     </svg>
