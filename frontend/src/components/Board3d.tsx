@@ -5,12 +5,21 @@ type Props = {
   length: number;
   width: number;
   thickness: number;
+  drills: Drill[];
+};
+
+type Drill = {
+  x: number;
+  y: number;
+  diameter: number;
+  depth: number;
 };
 
 function Board3D({
   length,
   width,
-  thickness
+  thickness,
+  drills
 }: Props) {
 
   const scale = 0.01;
@@ -18,7 +27,7 @@ function Board3D({
   return (
     <Canvas
       camera={{
-        position: [8, 6, 8],
+        position: [12, 8, 12],
         fov: 50
       }}
       style={{
@@ -34,7 +43,13 @@ function Board3D({
         intensity={2}
       />
 
-      <mesh>
+      <gridHelper args={[20, 20]} />
+
+      <axesHelper args={[5]} />
+
+      <mesh
+        position={[0, 0, 0]}
+      >
         <boxGeometry
           args={[
             length * scale,
@@ -47,6 +62,34 @@ function Board3D({
           color="#d2b48c"
         />
       </mesh>
+
+      {drills?.map((drill, index) => (
+
+        <mesh
+         key={index}
+          position={[
+           (drill.x * scale) - (length * scale / 2),
+            (thickness * scale / 2) + 0.01,
+            (drill.y * scale) - (width * scale / 2)
+          ]}
+         >
+
+         <cylinderGeometry
+             args={[
+               drill.diameter * scale / 2,
+               drill.diameter * scale / 2,
+               thickness * scale,
+               16
+             ]}
+         />
+
+         <meshStandardMaterial
+             color="blue"
+          />
+
+         </mesh>
+
+        ))}
 
       <OrbitControls />
 
